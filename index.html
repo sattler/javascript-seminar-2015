@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Module Pattern Web App</title>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Module pattern</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+
+        <div class="container">
+            <table id="tictactoe-table" class="table-bordered">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <th>Links</th>
+                        <th>Mitte</th>
+                        <th>Rechts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Oben</th>
+                        <td><button type="button" class="btn btn-lg btn-default" id="lo" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="loimg" width="75" height="75"></button></td>
+                        <td><button type="button" class="btn btn-lg btn-default" id="mo" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="moimg" width="75" height="75"></button></td>
+                        <td><button type="button" class="btn btn-lg btn-default" id="ro" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="roimg" width="75" height="75"></button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mitte</th>
+                        <td><button type="button" class="btn btn-lg btn-default" id="lm" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="lmimg" width="75" height="75"></button></td>
+                        <td><button type="button" class="btn btn-lg btn-default" id="mm" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="mmimg" width="75" height="75"></button></td>
+                        <td><button type="button" class="btn btn-lg btn-default" id="rm" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="rmimg" width="75" height="75"></button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Unten</th>
+                        <td><button type="button" class="btn btn-lg btn-default" id="lu" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="luimg" width="75" height="75"></button></td>
+                        <td><button type="button" class="btn btn-lg btn-default" id="mu" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="muimg" width="75" height="75"></button></td>
+                        <td><button type="button" class="btn btn-lg btn-default" id="ru" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="ruimg" width="75" height="75"></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+        <script src="js/bootstrap.min.js"></script>
+
+        <script src="tictactoe.js"></script>
+
+    </body>
+</html>
