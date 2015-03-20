@@ -78,7 +78,32 @@ var TICTACTOEAreaObject = (function () {
             }
         }
 
-        //TODO: Check diagonals
+        //check diagonals
+
+        if(posx == posy){
+            for(var d = 0; d < 3; d++){
+                if(field[d][d] != userIcon){
+                    break;
+                }
+                if(d == 2){
+                    object.gameOver = true;
+                    object.winner = user ? 'player' : 'computer';
+                    alert(object.winner+" wins");
+                }
+            }
+        }
+
+        for(var d = 0; d < 3; d++){
+            if(field[d][2-d] != userIcon){
+                break;
+            }
+            if(d == 2){
+                object.gameOver = true;
+                object.winner = user ? 'player' : 'computer';
+                alert(object.winner+" wins");
+            }
+        }
+
     };
 
     object.fieldWasAvailable = false;
