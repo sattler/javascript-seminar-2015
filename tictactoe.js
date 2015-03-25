@@ -218,7 +218,6 @@ function tictactoeclick(elem) {
     }
     var image = document.getElementById(elem.id + "img");
     image.src = "img/tictactoeX.png";
-    elem.onclick = null;
     if (TICTACTOEAreaObject.selectField(elem.id, true)) {
         return;
     }
@@ -226,6 +225,5 @@ function tictactoeclick(elem) {
     //compute pc strategy
     var kiField = TICTACTOEAreaObject.selectNextKiField();
     document.getElementById(kiField + "img").src = "img/tictactoeO.png";
-    document.getElementById(kiField).onclick = null;
 
 }
