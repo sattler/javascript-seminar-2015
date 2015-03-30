@@ -5,7 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Module Pattern Web App</title>
-
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
     </head>
@@ -19,11 +18,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Module pattern</a>
+              <a class="navbar-brand" href="index.html">Module pattern</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li><a href="index.html?strategy=none">No strategy</a></li>
+                <li><a href='index.html?strategy=random'>Random strategy</a></li>
+                <li><a href='index.html?strategy=good'>Good strategy</a></li>
+                <li><a href='index.html?strategy=perfect'>Perfect strategy</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -63,11 +65,21 @@
         </div>
 
         <!-- jQuery -->
+        <!-- old loading
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
         <script src="js/bootstrap.min.js"></script>
 
         <script src="tictactoe.js"></script>
+        -->
+
+        <script src="js/LAB.src.js"></script>
+        <script>
+            $LAB
+            .script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js').wait()
+            .script('js/bootstrap.min.js')
+            .script('tictactoe.js');
+        </script>
 
     </body>
 </html>

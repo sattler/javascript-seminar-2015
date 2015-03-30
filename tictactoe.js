@@ -1,76 +1,108 @@
 
-var TICTACTOEAreaObject = (function () {
-    var object = {};
-    area = {lo: null, mo: null, ro: null, lm: null, mm: null, rm: null, lu: null, mu: null, ru: null};
+var TICTACTOEAreaObject = (function (object) {
+
+    var _private = object._private = object._private || {};
+	var _seal = object._seal = object._seal || function () {
+			delete object._private;
+			delete object._seal;
+			delete object._unseal;
+		};
+	var _unseal = object._unseal = object._unseal || function () {
+			object._private = _private;
+			object._seal = _seal;
+			object._unseal = _unseal;
+		};
+
+    _private.area = {lo: null, mo: null, ro: null, lm: null, mm: null, rm: null, lu: null, mu: null, ru: null};
+    _private.moveCounter = 0;
 
     object.gameOver = false;
     object.winner = "nobody";
-    moveCounter = 0;
 
-    var checkThreeRow = function(position, user) { //check if game is over
-        if(moveCounter < 5){return;} //can't win before turn #5
-        if(moveCounter == 9) {
-            object.gameOver = true;
+    _private.getPositionFromCode = function(code) {
+        var indexX = -1;
+        switch (code.charAt(0)) {
+            case 'l':
+                indexX = 0;
+                break;
+            case 'm':
+                indexX = 1;
+                break;
+            case 'r':
+                indexX = 2;
+                break;
         }
+        var indexY = -1;
+        switch (code.charAt(1)) {
+            case 'o':
+                indexY = 0;
+                break;
+            case 'm':
+                indexY = 1;
+                break;
+            case 'u':
+                indexY = 2;
+                break;
+        }
+        return {x: indexX, y:indexY};
+    };
 
+    _private.getCodeFromPosition = function(position) {
+        var ret = "";
+        switch (position.x) {
+            case 0:
+                ret = ret + "l";
+                break;
+            case 1:
+                ret = ret + "m";
+                break;
+            case 2:
+                ret = ret + "r";
+                break;
+            default:
+                return null;
+        }
+        switch (position.y) {
+            case 0:
+                ret = ret + "o";
+                break;
+            case 1:
+                ret = ret + "m";
+                break;
+            case 2:
+                ret = ret + "u";
+                break;
+            default:
+                return null;
+        }
+        return ret;
+    };
+
+    _private.generateFieldArray = function() {
         var field = new Array(3);//define array to be filled with numbers (0 = empty, 1 = player/X, 2 = AI/O)
         for (var i = 0; i < 3; i++) {
             field[i] = new Array(3);
         }
 
-
-        var posx = 0; //position turned into coordinates
-        var posy = 0;
-
-        for (var prop in area) {
-            if (area.hasOwnProperty(prop)) {
-                var indexX = -1;
-                switch (prop.charAt(0)) {
-                    case 'l':
-                        indexX = 0;
-                        break;
-                    case 'm':
-                        indexX = 1;
-                        break;
-                    case 'r':
-                        indexX = 2;
-                        break;
-                }
-                var indexY = -1;
-                switch (prop.charAt(1)) {
-                    case 'o':
-                        indexY = 0;
-                        break;
-                    case 'm':
-                        indexY = 1;
-                        break;
-                    case 'u':
-                        indexY = 2;
-                        break;
-                }
-                if (indexX < 0 || indexY < 0) {
-                    alert("checkThreeRow: index error");
-                }
-
-                if (position === prop){//transform position -> coords
-                    posx = indexX;
-                    posy = indexY;
-                    field[indexX][indexY] = user ? 'X' : 'O';
-                    area[prop] = user ? 'X' : 'O';
-                } else {
-                    field[indexX][indexY] = area[prop];
-                }
+        for (var prop in _private.area) {
+            if (_private.area.hasOwnProperty(prop)) {
+                var pos = _private.getPositionFromCode(prop);
+                field[pos.x][pos.y] = _private.area[prop];
 
             }
         }
+        return field;
+    };
+
+    _private.checkThreeRow = function(user) { //check if game is over
+        if(_private.moveCounter < 5) { //can't win before turn #5
+            return;
+        }
+
+        var field = _private.generateFieldArray();
 
         //now we actually do what this function(method?) is supposed to do
         //check column
-       /* if(userIcon==1){
-            alert("position: "+posx+" "+posy);
-            alert(field);
-            alert("3rd row: "+field[2][0] +" "+ field[2][1] +" "+ field[2][2]+" posx: "+posx)
-        }*/
         var currentIcon = user ? 'X' : 'O';
 
         var checkRow = function(row) {
@@ -85,6 +117,7 @@ var TICTACTOEAreaObject = (function () {
             }
             return true;
         };
+
         var checkColumn = function(column) {
             if (column < 0 || column > field[0].length) {
                 console.log("checkRow: Index out of bounds");
@@ -108,16 +141,14 @@ var TICTACTOEAreaObject = (function () {
             if (ret) {
                 return true;
             }
-            ret = true;
             for (i = field.length -1; i >= 0; i--) {
                 if (field[i][field.length - 1 - i] !== currentIcon) {
-                    ret = false;
-                    break;
+                    return false;
                 }
             }
-            return ret;
+            return true;
         };
-
+        var i = 0;
         for (i = 0; i < field.length; i++) {
             if (checkRow(i) || checkColumn(i)) {
                 object.gameOver = true;
@@ -126,6 +157,7 @@ var TICTACTOEAreaObject = (function () {
                 return true;
             }
         }
+
         if (checkDiagonals()) {
             object.gameOver = true;
             object.winner = user ? 'player' : 'computer';
@@ -133,82 +165,64 @@ var TICTACTOEAreaObject = (function () {
             return true;
         }
 
-
-
-        // for(var y = 0; y < 3; y++) {
-        //     if(field[posx][y] != userIcon)
-        //         break;
-        //     if(y == 2){
-        //         object.gameOver = true;
-        //         object.winner = user ? 'player' : 'computer';
-        //         alert(object.winner+" wins");
-        //     }
-        // }
-        //
-        // //check row
-        // for(var x = 0; x < 3; x++){
-        //     if(field[x][posy] != userIcon)
-        //         break;
-        //     if(x == 2){
-        //         object.gameOver = true;
-        //         object.winner = user ? 'player' : 'computer';
-        //         alert(object.winner+" wins");
-        //     }
-        // }
-        //
-        // //check diagonals
-        //
-        // if(posx == posy){
-        //     for(var d = 0; d < 3; d++){
-        //         if(field[d][d] != userIcon){
-        //             break;
-        //         }
-        //         if(d == 2){
-        //             object.gameOver = true;
-        //             object.winner = user ? 'player' : 'computer';
-        //             alert(object.winner+" wins");
-        //         }
-        //     }
-        // }
-        //
-        // for(var d = 0; d < 3; d++){
-        //     if(field[d][2-d] != userIcon){
-        //         break;
-        //     }
-        //     if(d == 2){
-        //         object.gameOver = true;
-        //         object.winner = user ? 'player' : 'computer';
-        //         alert(object.winner+" wins");
-        //     }
-        // }
+        if(_private.moveCounter == 9) {
+            alert("Nobody wins!");
+            object.gameOver = true;
+        }
 
     };
 
     object.checkIfFieldIsAvailable = function (position) {
-        return area[position] === null;
+        return _private.area[position] === null;
     };
     object.selectField = function (position, user) {
-        if (area[position] === null) {
-            area[position] = user ? 'X' : 'O';
+        if (_private.area[position] === null) {
+            _private.area[position] = user ? 'X' : 'O';
 
-            moveCounter++;
+            _private.moveCounter++;
         }
-        return checkThreeRow(position, user); //check if this move was the winning (or last) move
+        return _private.checkThreeRow(user); //check if this move was the winning (or last) move
     };
 
-    object.selectNextKiField = function () {
-        for (var prop in area) {
-            if (area.hasOwnProperty(prop)) {
-                if (area[prop] === null) {
-                    object.selectField(prop, false);
-                    return prop;
-                }
-            }
-        }
-    };
+    var strategy = GetURLParameter("strategy");
+    if (!strategy) {
+        $LAB.script('tictactoeNoStrategy.js')
+            .script('tictactoeStrategyRandom.js')
+            .script('tictactoeGoodStrategy.js')
+            .script('tictactoePerfectStrategy.js').wait(function () {
+            TICTACTOEAreaObject._seal();
+        });
+    } else if (strategy === "none") {
+        $LAB.script('tictactoeNoStrategy.js').wait(function () {
+            TICTACTOEAreaObject._seal();
+        });
+    } else if (strategy === "random") {
+        $LAB.script('tictactoeStrategyRandom.js').wait(function () {
+            TICTACTOEAreaObject._seal();
+        });
+    } else if (strategy === "good") {
+        $LAB.script('tictactoeGoodStrategy.js').wait(function () {
+            TICTACTOEAreaObject._seal();
+        });
+    } else if (strategy === "perfect") {
+        $LAB.script('tictactoePerfectStrategy.js').wait(function () {
+            TICTACTOEAreaObject._seal();
+        });
+    }
 
     return object;
-}());
+}(TICTACTOEAreaObject || {}));
+
+function GetURLParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
+}
 
 //elem = button (defined in index.html)
 function tictactoeclick(elem) {
