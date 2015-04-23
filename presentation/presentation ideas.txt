@@ -1,2 +1,0 @@
-- combine advantages/disadvantages in one chapter
-- talk about the history of the module pattern
