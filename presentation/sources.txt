@@ -1,0 +1,3 @@
+advantages(when2use): http://briancray.com/posts/javascript-module-pattern
+whatismodulepattern: http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript
+disadvantages: http://stackoverflow.com/questions/14050755/revealing-module-pattern-disadvantages
