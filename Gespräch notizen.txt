@@ -1,5 +1,0 @@
-hghlght important code, colors( code, background)
-
-6: linenumber corellation
-
-schematis of blocks within module how2do

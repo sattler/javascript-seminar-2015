@@ -23,42 +23,78 @@
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
                 <li><a href="index.html?strategy=none">No strategy</a></li>
-                <li><a href='index.html?strategy=random'>Random strategy</a></li>
-                <li><a href='index.html?strategy=good'>Good strategy</a></li>
-                <li><a href='index.html?strategy=perfect'>Perfect strategy</a></li>
+                <li><a href="index.html?strategy=random">Random strategy</a></li>
+                <li><a href="index.html?strategy=good">Good strategy</a></li>
+                <!-- <li><a href='index.html?strategy=perfect'>Perfect strategy</a></li> -->
               </ul>
             </div><!--/.nav-collapse -->
           </div>
         </nav>
 
-        <div class="container">
-            <table id="tictactoe-table" class="table-bordered">
+        <div class="container" >
+            <table id="tictactoe-table" class="table-bordered" >
                 <thead>
-                    <tr>
+                    <!--<tr>
                         <td></td>
                         <th>Links</th>
                         <th>Mitte</th>
                         <th>Rechts</th>
-                    </tr>
+                    </tr>-->
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">Oben</th>
-                        <td><button type="button" class="btn btn-lg btn-default" id="lo" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="loimg" width="75" height="75"></button></td>
-                        <td><button type="button" class="btn btn-lg btn-default" id="mo" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="moimg" width="75" height="75"></button></td>
-                        <td><button type="button" class="btn btn-lg btn-default" id="ro" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="roimg" width="75" height="75"></button></td>
+                        <!-- <th scope="row">Oben</th> -->
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="lo" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="loimg" width="75" height="75">
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="mo" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="moimg" width="75" height="75">
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="ro" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="roimg" width="75" height="75">
+                            </button>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Mitte</th>
-                        <td><button type="button" class="btn btn-lg btn-default" id="lm" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="lmimg" width="75" height="75"></button></td>
-                        <td><button type="button" class="btn btn-lg btn-default" id="mm" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="mmimg" width="75" height="75"></button></td>
-                        <td><button type="button" class="btn btn-lg btn-default" id="rm" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="rmimg" width="75" height="75"></button></td>
+                        <!-- <th scope="row">Mitte</th> -->
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="lm" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="lmimg" width="75" height="75">
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="mm" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="mmimg" width="75" height="75">
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="rm" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="rmimg" width="75" height="75">
+                            </button>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Unten</th>
-                        <td><button type="button" class="btn btn-lg btn-default" id="lu" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="luimg" width="75" height="75"></button></td>
-                        <td><button type="button" class="btn btn-lg btn-default" id="mu" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="muimg" width="75" height="75"></button></td>
-                        <td><button type="button" class="btn btn-lg btn-default" id="ru" onclick="tictactoeclick(this)"><img src="img/transparent.png" id="ruimg" width="75" height="75"></button></td>
+                        <!-- <th scope="row">Unten</th> -->
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="lu" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="luimg" width="75" height="75">
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="mu" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="muimg" width="75" height="75">
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-lg btn-default" id="ru" onclick="tictactoeclick(this)">
+                                <img src="img/transparent.png" id="ruimg" width="75" height="75">
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -1,15 +1,15 @@
-var TICTACTOEAreaObject = (function (object) {
+var TICTACTOEAreaModule = (function (module) {
 
-    var _private = object._private = object._private || {};
-	var _seal = object._seal = object._seal || function () {
-			delete object._private;
-			delete object._seal;
-			delete object._unseal;
+    var _private = module._private = module._private || {};
+	var _seal = module._seal = module._seal || function () {
+			delete module._private;
+			delete module._seal;
+			delete module._unseal;
 		};
-	var _unseal = object._unseal = object._unseal || function () {
-			object._private = _private;
-			object._seal = _seal;
-			object._unseal = _unseal;
+	var _unseal = module._unseal = module._unseal || function () {
+			module._private = _private;
+			module._seal = _seal;
+			module._unseal = _unseal;
 		};
 
     _private.getWinField = function(user) {
@@ -120,58 +120,58 @@ var TICTACTOEAreaObject = (function (object) {
 
     };
 
-    object.selectNextKiField = function () {
+    module.selectNextKiField = function () {
         //1. check if ki could win -> win
         var field = _private.getWinField(false);
         if (field !== null) {
             var position_code = _private.getCodeFromPosition(field);
-            object.selectField(position_code, false);
+            module.selectField(position_code, false);
             return position_code;
         }
         //2. check if player could win -> block
         field = _private.getWinField(true);
         if (field !== null) {
             var position_code2 = _private.getCodeFromPosition(field);
-            object.selectField(position_code2, false);
+            module.selectField(position_code2, false);
             return position_code2;
         }
         //3. check mid -> take mid if free
-        if (object.checkIfFieldIsAvailable("mm")) {
-            object.selectField("mm", false);
+        if (module.checkIfFieldIsAvailable("mm")) {
+            module.selectField("mm", false);
             return "mm";
         }
         //4. check corner -> take corner if free
-        if (object.checkIfFieldIsAvailable("lo")) {
-            object.selectField("lo", false);
+        if (module.checkIfFieldIsAvailable("lo")) {
+            module.selectField("lo", false);
             return "lo";
         }
-        if (object.checkIfFieldIsAvailable("ro")) {
-            object.selectField("ro", false);
+        if (module.checkIfFieldIsAvailable("ro")) {
+            module.selectField("ro", false);
             return "ro";
         }
-        if (object.checkIfFieldIsAvailable("lu")) {
-            object.selectField("lu", false);
+        if (module.checkIfFieldIsAvailable("lu")) {
+            module.selectField("lu", false);
             return "lu";
         }
-        if (object.checkIfFieldIsAvailable("ru")) {
-            object.selectField("ru", false);
+        if (module.checkIfFieldIsAvailable("ru")) {
+            module.selectField("ru", false);
             return "ru";
         }
         //5. check edges -> take edge
-        if (object.checkIfFieldIsAvailable("mo")) {
-            object.selectField("mo", false);
+        if (module.checkIfFieldIsAvailable("mo")) {
+            module.selectField("mo", false);
             return "mo";
-        }if (object.checkIfFieldIsAvailable("lm")) {
-            object.selectField("lm", false);
+        }if (module.checkIfFieldIsAvailable("lm")) {
+            module.selectField("lm", false);
             return "lm";
-        }if (object.checkIfFieldIsAvailable("rm")) {
-            object.selectField("rm", false);
+        }if (module.checkIfFieldIsAvailable("rm")) {
+            module.selectField("rm", false);
             return "rm";
-        }if (object.checkIfFieldIsAvailable("mu")) {
-            object.selectField("mu", false);
+        }if (module.checkIfFieldIsAvailable("mu")) {
+            module.selectField("mu", false);
             return "mu";
         }
     };
 
-    return object;
-}(TICTACTOEAreaObject || {}));
+    return module;
+}(TICTACTOEAreaModule || {}));

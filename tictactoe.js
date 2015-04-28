@@ -1,23 +1,23 @@
 
-var TICTACTOEAreaObject = (function (object) {
+var TICTACTOEAreaModule = (function (module) {
 
-    var _private = object._private = object._private || {};
-	var _seal = object._seal = object._seal || function () {
-			delete object._private;
-			delete object._seal;
-			delete object._unseal;
+    module.gameOver = false;
+    module.winner = "nobody";
+
+    var _private = module._private = module._private || {};
+	var _seal = module._seal = module._seal || function () {
+			delete module._private;
+			delete module._seal;
+			delete module._unseal;
 		};
-	var _unseal = object._unseal = object._unseal || function () {
-			object._private = _private;
-			object._seal = _seal;
-			object._unseal = _unseal;
+	var _unseal = module._unseal = module._unseal || function () {
+			module._private = _private;
+			module._seal = _seal;
+			module._unseal = _unseal;
 		};
 
     _private.area = {lo: null, mo: null, ro: null, lm: null, mm: null, rm: null, lu: null, mu: null, ru: null};
     _private.moveCounter = 0;
-
-    object.gameOver = false;
-    object.winner = "nobody";
 
     _private.getPositionFromCode = function(code) {
         var indexX = -1;
@@ -151,31 +151,31 @@ var TICTACTOEAreaObject = (function (object) {
         var i = 0;
         for (i = 0; i < field.length; i++) {
             if (checkRow(i) || checkColumn(i)) {
-                object.gameOver = true;
-                object.winner = user ? 'player' : 'computer';
-                alert(object.winner + " wins");
+                module.gameOver = true;
+                module.winner = user ? 'player' : 'computer';
+                alert(module.winner + " wins");
                 return true;
             }
         }
 
         if (checkDiagonals()) {
-            object.gameOver = true;
-            object.winner = user ? 'player' : 'computer';
-            alert(object.winner + " wins");
+            module.gameOver = true;
+            module.winner = user ? 'player' : 'computer';
+            alert(module.winner + " wins");
             return true;
         }
 
         if(_private.moveCounter == 9) {
             alert("Nobody wins!");
-            object.gameOver = true;
+            module.gameOver = true;
         }
 
     };
 
-    object.checkIfFieldIsAvailable = function (position) {
+    module.checkIfFieldIsAvailable = function (position) {
         return _private.area[position] === null;
     };
-    object.selectField = function (position, user) {
+    module.selectField = function (position, user) {
         if (_private.area[position] === null) {
             _private.area[position] = user ? 'X' : 'O';
 
@@ -190,28 +190,29 @@ var TICTACTOEAreaObject = (function (object) {
             .script('tictactoeStrategyRandom.js')
             .script('tictactoeGoodStrategy.js')
             .script('tictactoePerfectStrategy.js').wait(function () {
-            TICTACTOEAreaObject._seal();
+            TICTACTOEAreaModule._seal();
         });
     } else if (strategy === "none") {
         $LAB.script('tictactoeNoStrategy.js').wait(function () {
-            TICTACTOEAreaObject._seal();
+            TICTACTOEAreaModule._seal();
         });
     } else if (strategy === "random") {
         $LAB.script('tictactoeStrategyRandom.js').wait(function () {
-            TICTACTOEAreaObject._seal();
+            TICTACTOEAreaModule._seal();
         });
     } else if (strategy === "good") {
         $LAB.script('tictactoeGoodStrategy.js').wait(function () {
-            TICTACTOEAreaObject._seal();
-        });
-    } else if (strategy === "perfect") {
-        $LAB.script('tictactoePerfectStrategy.js').wait(function () {
-            TICTACTOEAreaObject._seal();
+            TICTACTOEAreaModule._seal();
         });
     }
+    // else if (strategy === "perfect") {
+    //     $LAB.script('tictactoePerfectStrategy.js').wait(function () {
+    //         TICTACTOEAreaModule._seal();
+    //     });
+    // }
 
-    return object;
-}(TICTACTOEAreaObject || {}));
+    return module;
+}(TICTACTOEAreaModule || {}));
 
 function GetURLParameter(sParam) {
     var sPageURL = window.location.search.substring(1);
@@ -227,17 +228,17 @@ function GetURLParameter(sParam) {
 //elem = button (defined in index.html)
 function tictactoeclick(elem) {
 
-    if (TICTACTOEAreaObject.gameOver || !TICTACTOEAreaObject.checkIfFieldIsAvailable(elem.id)) {
+    if (TICTACTOEAreaModule.gameOver || !TICTACTOEAreaModule.checkIfFieldIsAvailable(elem.id)) {
         return;
     }
     var image = document.getElementById(elem.id + "img");
     image.src = "img/tictactoeX.png";
-    if (TICTACTOEAreaObject.selectField(elem.id, true)) {
+    if (TICTACTOEAreaModule.selectField(elem.id, true)) {
         return;
     }
 
     //compute pc strategy
-    var kiField = TICTACTOEAreaObject.selectNextKiField();
+    var kiField = TICTACTOEAreaModule.selectNextKiField();
     document.getElementById(kiField + "img").src = "img/tictactoeO.png";
 
 }
