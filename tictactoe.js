@@ -1,9 +1,6 @@
 
 var TICTACTOEAreaModule = (function (module) {
 
-    module.gameOver = false;
-    module.winner = "nobody";
-
     var _private = module._private = module._private || {};
 	var _seal = module._seal = module._seal || function () {
 			delete module._private;
@@ -171,6 +168,9 @@ var TICTACTOEAreaModule = (function (module) {
         }
 
     };
+
+    module.gameOver = false;
+    module.winner = "nobody";
 
     module.checkIfFieldIsAvailable = function (position) {
         return _private.area[position] === null;
