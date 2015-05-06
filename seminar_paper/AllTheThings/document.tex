@@ -3,6 +3,8 @@
 \copyrightyear{2005}
 \pubyear{2005}
 
+\usepackage{listings}
+
 \usepackage[ngerman]{babel}
 %\usepackage[utf8]{inputenc}
 
@@ -29,19 +31,21 @@ This is better looking sample text compared to the original sample text that jus
 \end{abstract}
 
 \section{Introduction}
-This is better looking sample text compared to the original sample text that just repeated the word "Text".  Figure~\ref{fig:01} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citep{Bag01} wants to know about �� text follows.
+Since Javascript was not designed with object orientation in mind certain tricks are required. The Module Pattern is one such trick. It implements classlike behaviour by allowing public and private properties in one single datastructure. This keeps the properties out of the global namespace and prevents unwanted modification from outside the structure. The Module Pattern is an entirely separate alternative to Javascript objects.
 
 
 \section{Module Pattern:}
-This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text".
+
 
 \subsection{Overview:}
+As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, that is called immediately after it's definition, and returning this object. All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the function's scope. ((((((((((insert code example here)))))))))))
 
 \subsection{Strengths and Weaknesses of the Module Pattern:}
-This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text".
+A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different modules to implement and can work separately.
 %add code examples for strengths/weaknesses
 
 \subsection{global variables:}
+
 
 \subsection{extensions:}
 
