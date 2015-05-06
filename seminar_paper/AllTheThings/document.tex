@@ -4,14 +4,47 @@
 \pubyear{2005}
 
 \usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
 
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
 \usepackage[ngerman]{babel}
 %\usepackage[utf8]{inputenc}
 
 \begin{document}
 \firstpage{1}
 
-\title[short Title]{This is a title}
+\title[short Title]{Javascript Technology: Module Pattern}
 \author[Sample \textit{et~al}]{Corresponding Author\,$^{1,*}$, Co-Author\,$^{2}$ and Co-Author\,$^2$\footnote{to whom correspondence should be addressed}}
 \address{$^{1}$Department of XXXXXXX, Address XXXX etc.\\
 $^{2}$Department of XXXXXXXX, Address XXXX etc.}
@@ -38,18 +71,29 @@ Since Javascript was not designed with object orientation in mind certain tricks
 
 
 \subsection{Overview:}
-As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, that is called immediately after it's definition, and returning this object. All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the function's scope. ((((((((((insert code example here)))))))))))
+As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, that is called immediately after it's definition, and returning this object. All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the function's scope. 
+
+\begin{lstlisting}
+var My_Module = (function(){
+	var test = 3;
+]());
+\end{lstlisting}
 
 \subsection{Strengths and Weaknesses of the Module Pattern:}
-A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different modules to implement and can work separately.
+A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different Modules to implement and can work separately.
+Restricting variables to a local scope leads to less clutter in the global namespace. This, in addition to the fact that the public variables are bound to one module variable, prevents variable name conflicts which can be a problem when importing libraries or working with a team of developers. On top of that Modules can be extended to add more methods and variables when required. \\
+
+The Module Pattern also has a few downsides. For one, inheritance requires the inheriting Module to explicitly copy all properties of the super Module. Also it is not possible to manipulate the private properties of a Module from outside the Module's scope. Not even while extending it. Another problem is that changing the visibility of a property requires the programmer to edit every line of code that contains said property. This is the case because visibility is not defined by a single keyword but by whether the property is part of the returned object inside the Module so it is either accessed by "module.property" if it is public or just "property" if it is private.
+
 %add code examples for strengths/weaknesses
 
-\subsection{global variables:}
+\subsection{Global Variables:}
+Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as parameters for the Module's anonymous function.
 
+\subsection{Inheritance:}
+To make a Module inherit from another Module
 
-\subsection{extensions:}
-
-\subsection{inheritance:}
+\subsection{Augmentation:}
 
 \subsection{loading order: cross-file private state...}
 
