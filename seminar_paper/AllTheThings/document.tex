@@ -1,7 +1,7 @@
 
 \documentclass{bioinfo}
-\copyrightyear{2005}
-\pubyear{2005}
+\copyrightyear{2015}
+\pubyear{2015}
 
 \usepackage{listings}
 \usepackage{color}
@@ -89,10 +89,10 @@ var My_Module = (function(){
 	var module = {};
 	var private_variable = 3;
 	module.public_variable = 9;
-	
+
 	//return public part of the module
 	return module;
-	
+
 //execute anonymous function immediately
 ]());
 \end{lstlisting}
@@ -129,14 +129,14 @@ Global variables can make code hard to read or maintain since it is difficult fo
 //use global variable as function parameter
 var My_Module = (function(global_variable){
 	var module = {};
-	
+
 	//access global variable
 	module.global_incremented = function(){
 		return global_variable + 1;
 	}
-	
-	return module;	
-	
+
+	return module;
+
 //use global variable as argument
 ](global_variable));
 \end{lstlisting}
@@ -153,18 +153,18 @@ Modules inherit from other Modules by copying all their non-private properties. 
 //super module as parameter
 var My_Module = (function(super_module){
 	var module = {};
-	
+
 	//create reference to super module
 	module.super = super_module;
-	
-	//copy all properties from the 
+
+	//copy all properties from the
 	//super module to the new module
 	for (key in super_module) {
 		if (super_module.hasOwnProperty(key) {
 			module[key] = super_module[key];
 		}
 	}
-	
+
 //import super module as argument
 //to new anonymous function
 ](super_module));
@@ -179,21 +179,21 @@ As was briefly touched upon in the "Strengths and Weaknesses of the Module Patte
 //define anonymous function with
 //original Module as parameter
 var Original_Module = (function(original_Module){
-	
-	//add new properties	
+
+	//add new properties
 	original_Module.new_variable = 25;
 	original_Module.new_method = function(){
 		return 3+5;
 	};
-	
+
 	//overwrite original properties
 	original_Module.original_variable = 18;
 	original_Module.original_method = function(){
 		return 4+2;
 	}
-	
+
 	return original_Module;
-	
+
 //import original Module as argument
 //to new anonymous function
 ](Original_Module));
@@ -211,12 +211,88 @@ These augmentations can be even be done from different files and can even be use
 
 
 
-\subsection{loading order: cross-file private state...}
+\subsection{Advanced Module Pattern concepts}
+Here we would like to introduce you to some advanced Module Pattern concepts like separating your module on to different files.
+Using more files for one module can open you a whole bunch of new possibilities, for example it is simplifying the project structure.
+We will also talk about the loading order of the files and the possibilities you have there.
+In the end we'll show you how to manage the private scope over several files.
 
-\section{Our Web App(more descriptive title required - Overview:}
+\subsubsection{One Module Pattern in different files}
+Like we mentioned above its possible to organize your modules different tasks in more files.
+But more important is that its possible now to independently load your module
+extensions. That means if you can't discover which module extensions you need, at page load,
+you can do it now dynamically as soon as you know it. Its only necessary to
+include a dynamic loading framework and you can use it. This means you can load your different
+strategies dynamically and on user needs. Reducing data traffic is one good reason to use this
+concept.
 
-This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text".
+\subsubsection{Augmentation possibilities}
+By the use of the splitting to different files concept you have to choose between two different
+augmentation possibilities:
+\begin{itemize}
+    \item loose augmentation (no defined loading order)
+    \item tight augmentation (a defined loading order by your code)
+\end{itemize}
+This augmentation possibilities differ in the function argument.
+The loose augmentation has the following structure:
 
+% var module_name = function(module) {
+% ...
+% return module
+% } (module_name || {})
+
+This means if the module is already instanced we use it to extend and overwrite it.
+Otherwise we use a new empty object. If you use loose augmentation the var keyword
+is mandatory. The loose augmentation has no strict loading order and its possible to load them
+as you wish.
+
+On the other side there is the tight augmentation structured like this:
+
+% [var] module_name = function(module) {
+% ...
+% return module
+% } (module_name)
+
+Here the var keyword is optional and not needed. The base of your module isn't structured
+like this but has the base structure without the module as an argument. Only the extensions for
+that base module need this tight augmentation structure. This implies that the base of
+your module has to be loaded before the extensions. But for the extensions there is no defined
+loading order.
+
+There is a problem you could face if you load the extensions randomly, because of some relations
+betweeen your extensions. Thats a really important thing you have to consider. So if there are
+constraints related to your module extensions, its necessary to adapt also your loading
+order in order to match the constraints.
+
+\subsubsection{Cross-File private state}
+So now you probably want to share your private variables, which normally are only accessible
+inside the generator function, to other extensions of your module. Even if you have
+more module extensions in one file (in my opinion there is no point in that, but netherless),
+it isn't possible to access private variables of other extensions.
+
+But there is a solution for this problem: you create a private and public object (here named \_private), both point
+to the same object. Its properties are in the cross-file private scope. After the initialization
+you have to call a ``seal'' function (called \_seal in our example) which deletes the public
+variables \_private, \_seal and \_unseal. The unseal function (called \_unseal in our example)
+recreates the public variables \_private, \_seal and \_unseal. To fullfill all this
+requirements the following code has to be in every module extension function.
+
+% Code für cross-file private state
+
+This code creates creates a local ``private'' object which points to the same as the public ``private''
+object. They both point to the public ``private'' object if it exists or to a new object.
+The same workflow is valid for the ``seal'' and the ``unseal'' functions, if the public function
+exists point to it, if not create the function.
+
+Important is also if its necessary to load an extension not directly on page loading, but
+later on, before loading it the ``unseal'' function must be called and afterwards the
+``seal'' function. Now you have a full working cross-file private scope.
+
+\section{Our Web App - Tic Tac Toe Overview:}
+We developed a small web app where its possible to play the famous Tic Tac Toe game.
+For a better layout and to simplify our lifes we added the Bootstrap framework. It is
+a Open source HTML, CSS and JavaScript framework and they advertise it as the most popular.
+To load our files dynamically we used the 3rd party framework LAB.js.
 
 \section{How Module Pattern Helped Our App (better title pls, jeebus)}
 
