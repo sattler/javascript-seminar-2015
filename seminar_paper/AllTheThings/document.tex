@@ -75,7 +75,11 @@ As mentioned in the Introduction, the Module Pattern allows public and private p
 
 \begin{lstlisting}
 var My_Module = (function(){
-	var test = 3;
+	var module = {};
+	var private_variable = 3;
+	module.public_variable = 9;
+	
+	return module;
 ]());
 \end{lstlisting}
 
@@ -88,10 +92,29 @@ The Module Pattern also has a few downsides. For one, inheritance requires the i
 %add code examples for strengths/weaknesses
 
 \subsection{Global Variables:}
-Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as parameters for the Module's anonymous function.
+Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function.
+
+\begin{lstlisting}
+var My_Module = (function(global_variable){
+	do_things(global_variable)
+](global_variable));
+\end{lstlisting}
 
 \subsection{Inheritance:}
-To make a Module inherit from another Module
+Modules inherit from other Modules by copying all their non-private properties. To achieve this the super Module's public part is imported into the inheriting Module as an argument. A reference to the super Module is saved and all it's properties are recreated.
+
+\begin{lstlisting}
+var My_Module = (function(super_module){
+	var module = {};
+	module.super = super_module;
+	for (key in super_module) {
+		if (super_module.hasOwnProperty(key) {
+			module[key] = super_module[key];
+		}
+	}
+](super_module));
+\end{lstlisting}
+
 
 \subsection{Augmentation:}
 
