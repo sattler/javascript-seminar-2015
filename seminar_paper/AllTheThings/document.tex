@@ -58,7 +58,7 @@ $^{2}$Department of XXXXXXXX, Address XXXX etc.}
 \begin{abstract}
 
 \section{Motivation:}
-This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text".
+This paper provides an in depth description of the Javascript Module Pattern. The Module Pattern is a way to implement classlike behaviour in Javascript by using the closure of anonymous functions to provide privacy and scope. It also explains the advantages and disadvantages that come with using the Module Pattern for your application. Finally it presents an application that has used the Module Pattern.
 
 \section{Contact:} \href{name@bio.com}{name@bio.com}
 \end{abstract}
@@ -71,32 +71,63 @@ Since Javascript was not designed with object orientation in mind certain tricks
 
 
 \subsection{Overview:}
-As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, that is called immediately after it's definition, and returning this object. All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the function's scope. 
+As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, called "module" in the code example, that is executed immediately after it's definition. The object is returned at the end of the function. Everything in this function exists inside a closure, providing privacy and state.  \\
+
+All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the function's scope. The state provided by the closure remains consistent over all invocations of the Module. The following codes illustrates the basic Module Pattern.
 
 \begin{lstlisting}
+//define anonymous function
 var My_Module = (function(){
 	var module = {};
 	var private_variable = 3;
 	module.public_variable = 9;
 	
+	//return public part of the module
 	return module;
+	
+//execute anonymous function immediately
 ]());
 \end{lstlisting}
 
-\subsection{Strengths and Weaknesses of the Module Pattern:}
-A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different Modules to implement and can work separately.
-Restricting variables to a local scope leads to less clutter in the global namespace. This, in addition to the fact that the public variables are bound to one module variable, prevents variable name conflicts which can be a problem when importing libraries or working with a team of developers. On top of that Modules can be extended to add more methods and variables when required. \\
+Public properties can now be accessed like this:
 
-The Module Pattern also has a few downsides. For one, inheritance requires the inheriting Module to explicitly copy all properties of the super Module. Also it is not possible to manipulate the private properties of a Module from outside the Module's scope. Not even while extending it. Another problem is that changing the visibility of a property requires the programmer to edit every line of code that contains said property. This is the case because visibility is not defined by a single keyword but by whether the property is part of the returned object inside the Module so it is either accessed by "module.property" if it is public or just "property" if it is private.
+\begin{lstlisting}
+My_Module.public_property
+\end{lstlisting}
+
+
+While private properties can not be accessed from outside the anonymous function's closure, the following code will not produce an error, but instead create a new public variable named "private\_variable"
+\begin{lstlisting}
+My_Module.private_variable
+\end{lstlisting}
+
+\subsection{Strengths and Weaknesses of the Module Pattern:}
+A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different Modules to implement and can work separately.\\
+
+Restricting variables to a local scope leads to less clutter in the global namespace. This, in addition to the fact that the public variables are bound to one module variable, prevents variable name conflicts which can be a problem when importing libraries or working with a team of developers. On top of that Modules can be augmented to add more methods and variables when required. \\\\
+
+The Module Pattern also has a few downsides. For one, inheritance requires the inheriting Module to explicitly copy all properties of the super Module. Also it is not possible to manipulate the private properties of a Module from outside the Module's scope. Not even while augmenting it.\\ 
+
+Another problem is that changing the visibility of a property requires the programmer to edit every line of code that contains said property. This is the case because visibility is not defined by a single keyword but by whether the property is part of the returned object inside the Module so it is either accessed by "module.property" if it is public or just "property" if it is private.
 
 %add code examples for strengths/weaknesses
 
 \subsection{Global Variables:}
-Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function.
+Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function. Of course global variables can be accessed inside the function's closure regardless of whether they are imported explicitly or not. Using global variables as arguments is done for increased readability and is highly recommended\\\\
 
 \begin{lstlisting}
+//use global variable as function parameter
 var My_Module = (function(global_variable){
-	do_things(global_variable)
+	var module = {};
+	
+	//access global variable
+	module.global_incremented = function(){
+		return global_variable + 1;
+	}
+	
+	return module;	
+	
+//use global variable as argument
 ](global_variable));
 \end{lstlisting}
 
@@ -104,19 +135,66 @@ var My_Module = (function(global_variable){
 Modules inherit from other Modules by copying all their non-private properties. To achieve this the super Module's public part is imported into the inheriting Module as an argument. A reference to the super Module is saved and all it's properties are recreated.
 
 \begin{lstlisting}
+//define anonymous function with
+//super module as parameter
 var My_Module = (function(super_module){
 	var module = {};
+	
+	//create reference to super module
 	module.super = super_module;
+	
+	//copy all properties from the 
+	//super module to the new module
 	for (key in super_module) {
 		if (super_module.hasOwnProperty(key) {
 			module[key] = super_module[key];
 		}
 	}
+	
+//import super module as argument
+//to new anonymous function
 ](super_module));
 \end{lstlisting}
 
 
 \subsection{Augmentation:}
+As was briefly touched upon in the "Strengths and Weaknesses of the Module Pattern" section, Modules can be augmented after their original definition. A new anonymous function is defined and executed immediately. It takes the variable that held the original Module as an argument. Instead of creating a new object to contain all public properties, new public properties are added to the original modules object. The public properties of the original Module can also be modified. Said object is returned at the end of the function and the return value is used to overwrite the variable that held the original Module's public properties. The new public properties can now be accessed along the original ones through this variable. \\
+
+
+
+\begin{lstlisting}
+//define anonymous function with
+//original module as parameter
+var Original_Module = (function(original_module){
+	
+	//add new properties	
+	original_module.new_variable = 25;
+	original_module.new_method = function(){
+		return 3+5;
+	};
+	
+	//overwrite original properties
+	original_module.original_variable = 18;
+	original_module.original_method = function(){
+		return 4+2;
+	}
+	
+	return original_module;
+	
+//import original module as argument
+//to new anonymous function
+](Original_Module));
+\end{lstlisting}
+
+
+
+It is worth noting that the original private properties can not be accessed in the new anonymous function, since they are only accessible from inside the original anonymous function's closure. New anonymous properties can be defined but they only exist in their own function's closure and can not be accessed from anywhere else.\\
+
+These augmentations can be even be done from different files and can even be used when the original Module has not been created. This will be explained in detail in the following section.
+
+
+
+
 
 \subsection{loading order: cross-file private state...}
 
