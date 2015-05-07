@@ -40,8 +40,8 @@
 }
 \usepackage[ngerman]{babel}
 %\usepackage[utf8]{inputenc}
-
 \begin{document}
+\raggedright
 \firstpage{1}
 
 \title[short Title]{Javascript Technology: Module Pattern}
@@ -73,7 +73,9 @@ Since Javascript was not designed with object orientation in mind certain tricks
 \subsection{Overview:}
 As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, called "module" in the code example, that is executed immediately after it's definition. The object is returned at the end of the function. Everything in this function exists inside a closure, providing privacy and state.  \\
 
+\begin{flushleft}
 All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the function's scope. The state provided by the closure remains consistent over all invocations of the Module. The following codes illustrates the basic Module Pattern.
+\end{flushleft}
 
 \begin{lstlisting}
 //define anonymous function
@@ -104,7 +106,9 @@ My_Module.private_variable
 \subsection{Strengths and Weaknesses of the Module Pattern:}
 A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different Modules to implement and can work separately.\\
 
-Restricting variables to a local scope leads to less clutter in the global namespace. This, in addition to the fact that the public variables are bound to one module variable, prevents variable name conflicts which can be a problem when importing libraries or working with a team of developers. On top of that Modules can be augmented to add more methods and variables when required. \\\\
+\begin{flushleft}
+Restricting variables to a local scope leads to less clutter in the global namespace. This, in addition to the fact that the public variables are bound to one module variable, prevents variable name conflicts which can be a problem when importing libraries or working with a team of developers. On top of that Modules can be augmented to add more methods and variables when required.
+\end{flushleft}
 
 The Module Pattern also has a few downsides. For one, inheritance requires the inheriting Module to explicitly copy all properties of the super Module. Also it is not possible to manipulate the private properties of a Module from outside the Module's scope. Not even while augmenting it.\\ 
 
@@ -113,7 +117,7 @@ Another problem is that changing the visibility of a property requires the progr
 %add code examples for strengths/weaknesses
 
 \subsection{Global Variables:}
-Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function. Of course global variables can be accessed inside the function's closure regardless of whether they are imported explicitly or not. Using global variables as arguments is done for increased readability and is highly recommended\\\\
+Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function. Of course global variables can be accessed inside the function's closure regardless of whether they are imported explicitly or not. Using global variables as arguments is done for increased readability and is highly recommended\\
 
 \begin{lstlisting}
 //use global variable as function parameter
