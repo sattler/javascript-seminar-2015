@@ -205,11 +205,6 @@ var TICTACTOEAreaModule = (function (module) {
             TICTACTOEAreaModule._seal();
         });
     }
-    // else if (strategy === "perfect") {
-    //     $LAB.script('tictactoePerfectStrategy.js').wait(function () {
-    //         TICTACTOEAreaModule._seal();
-    //     });
-    // }
 
     return module;
 }(TICTACTOEAreaModule || {}));

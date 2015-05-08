@@ -38,46 +38,44 @@
    showtabs=false,
    captionpos=b
 }
-\usepackage[ngerman]{babel}
+%\usepackage[ngerman]{babel}
 %\usepackage[utf8]{inputenc}
 \begin{document}
-\raggedright
 \firstpage{1}
 
-\title[short Title]{Javascript Technology: Module Pattern}
-\author[Sample \textit{et~al}]{Corresponding Author\,$^{1,*}$, Co-Author\,$^{2}$ and Co-Author\,$^2$\footnote{to whom correspondence should be addressed}}
-\address{$^{1}$Department of XXXXXXX, Address XXXX etc.\\
-$^{2}$Department of XXXXXXXX, Address XXXX etc.}
+\title[Module Pattern]{JavaScript Technology: Module Pattern}
+\author[Sattler, Kammerloher]{Sattler Patrick, Andreas Kammerloher}
+\address{Bioinformatics and Computational Biology Departement \\
+Rostlab}
 
-\history{Received on XXXXX; revised on XXXXX; accepted on XXXXX}
+\history{Received on 08.05.2015}
 
-\editor{Associate Editor: XXXXXXX}
+\editor{Associate Editor: Guy Yachdav}
 
 \maketitle
 
 \begin{abstract}
 
 \section{Motivation:}
-This paper provides an in depth description of the Javascript Module Pattern. The Module Pattern is a way to implement classlike behaviour in Javascript by using the closure of anonymous functions to provide privacy and scope. It also explains the advantages and disadvantages that come with using the Module Pattern for your application. Finally it presents an application that has used the Module Pattern.
+This paper provides an in depth description of the JavaScript Module Pattern. The Module Pattern is a way to implement classlike behaviour in JavaScript by using the closure of anonymous functions to provide privacy and scope. It also explains the advantages and disadvantages that come with using the Module Pattern for your application. Finally it presents an application that has used the Module Pattern.
 
-\section{Contact:} \href{name@bio.com}{name@bio.com}
+\section{Contact:} \href{sattler.patrick@posteo.de}{sattler.patrick@posteo.de} \\
+\href{andreas.kammerloher@arcor.de}{andreas.kammerloher@arcor.de}
 \end{abstract}
 
 \section{Introduction}
 Logically separating pieces of code allows for easier reading and understanding of said code. It is common for programming languages to implement this through object orientation.
-\vspace{\baselineskip}
-Since Javascript was not designed with object orientation in mind certain hacks are required. The Module Pattern is one such hack. It implements classlike behaviour by allowing public and private properties in one single datastructure. This keeps the properties out of the global namespace and prevents unwanted modification from outside the structure. The Module Pattern is an entirely separate alternative to Javascript prototype based class emulation.
+
+Since JavaScript was not designed with object orientation in mind certain hacks are required. The Module Pattern is one such hack. It implements classlike behaviour by allowing public and private properties in one single datastructure. This keeps the properties out of the global namespace and prevents unwanted modification from outside the structure. The Module Pattern is an entirely separate alternative to JavaScript prototype based class emulation.
 
 
 \section{Module Pattern:}
 
 
 \subsection{Overview:}
-As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, called "module" in the code example, that is executed immediately after it's definition. The object is returned at the end of the function. Everything in this function exists inside a closure, providing privacy and state.  \\
+As mentioned in the Introduction, the Module Pattern allows public and private properties in one datastructure. This is achieved by creating an object inside an anonymous function, called "module" in the code example, that is executed immediately after its definition. The object is returned at the end of the function. Everything in this function exists inside a closure, providing privacy and state.  \\
 
-\begin{flushleft}
-All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing it's properties to be accessed from outside the functions scope. The state provided by the closure remains consistent over all invocations of the Module. The following codes illustrates the basic Module Pattern.
-\end{flushleft}
+All public methods and variables are defined as part of the object, all private ones are created independent of it. The return value is saved in a variable thus allowing its properties to be accessed from outside the functions scope. The state provided by the closure remains consistent over all invocations of the Module. The following codes illustrates the basic Module Pattern.
 
 \vspace{\baselineskip}
 \vspace{\baselineskip}
@@ -94,7 +92,7 @@ var My_Module = (function(){
 	return module;
 
 //execute anonymous function immediately
-]());
+})();
 \end{lstlisting}
 
 Public properties can now be accessed like this:
@@ -112,18 +110,16 @@ My_Module.private_variable
 \subsection{Strengths and Weaknesses of the Module Pattern:}
 A big advantage of the Module Pattern is scalabilty. Modules are isolated pieces of code and can be added or removed fairly easily since they are mostly independent of other code. The isolation also allows for a simple distribution of work among several programmers as they can be assigned different Modules to implement and can work separately.\\
 
-\begin{flushleft}
 Restricting variables to a local scope leads to less clutter in the global namespace. This, in addition to the fact that the public variables are bound to one module variable, prevents variable name conflicts which can be a problem when importing libraries or working with a team of developers. On top of that Modules can be augmented to add more methods and variables when required.
-\end{flushleft}
 
 The Module Pattern also has a few downsides. For one, inheritance requires the inheriting Module to explicitly copy all properties of the super Module. Also it is not possible to manipulate the private properties of a Module from outside the Module's scope. Not even while augmenting it. Since private properties only exist within the anonymous function's closure they can not be accessed from the outside at all. \vspace{\baselineskip}
 
-Another problem is that changing the visibility of a property requires the programmer to edit every line of code that contains said property. This is the case because visibility is not defined by a single keyword but by whether the property is part of the returned object inside the Module so it is either accessed by 'module.property' if it is public or just 'property' if it is private.
+Another problem is that changing the visibility of a property requires the programmer to edit every line of code that contains said property. This is the case because visibility is not defined by a single keyword but by whether the property is part of the returned object inside the Module so it is either accessed by ``module.property'' if it is public or just ``property'' if it is private.
 
 %add code examples for strengths/weaknesses
 
 \subsection{Global Variables:}
-Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function. Of course global variables can be accessed inside the functions closure regardless of whether they are imported explicitly or not. Using global variables as arguments is done for increased readability and is highly recommended\cite{adequatelygood}\\
+Global variables can make code hard to read or maintain since it is difficult for humans to determine where in the code they are used. The Module Pattern allows to import global variables into a Module explicitly by using them as arguments for the Module's anonymous function. Of course global variables can be accessed inside the functions closure regardless of whether they are imported explicitly or not. Using global variables as arguments is done for increased readability and is highly recommended \cite{adequatelygood}.\\
 
 \begin{lstlisting}
 //use global variable as function parameter
@@ -138,15 +134,32 @@ var My_Module = (function(global_variable){
 	return module;
 
 //use global variable as argument
-](global_variable));
+})(global_variable);
 \end{lstlisting}
+
+\subsection{Namespacing}
+To make the whole project even better organized it's possible to add sub modules.
+This means its possible to create something similar to a namespace, from
+other programming languages you may know and its as easier as you probably think.
+
+\begin{lstlisting}
+    My_Module.my_new_submodule = (function(){
+    	var submodule = {};
+        //...
+        return submodule;
+    })();
+\end{lstlisting}
+
+This is a pretty obvious concept, but it's also important to know. Obviously the
+submodules can be seen as normal modules and they do have the same features. That means
+it's possible to create more levels in your namespace.
 
 \subsection{Inheritance:}
 
 Inheritance allows a new Module to derive all public properties from another Module. It is not only useful to reduce the lines of code in a program but it also increases readablity as related Modules are clearly recognizable as such.\vspace{\baselineskip}
 
 
-Modules inherit from other Modules by copying all their non-private properties. To achieve this the super Module's public part is imported into the inheriting Module as an argument. A reference to the super Module is saved and all it's properties are recreated.\vspace{\baselineskip}
+Modules inherit from other Modules by copying all their non-private properties. To achieve this the super Module's public part is imported into the inheriting Module as an argument. A reference to the super Module is saved and all its properties are recreated.\vspace{\baselineskip}
 
 \begin{lstlisting}
 //define anonymous function with
@@ -167,7 +180,7 @@ var My_Module = (function(super_module){
 
 //import super module as argument
 //to new anonymous function
-](super_module));
+})(super_module);
 \end{lstlisting}
 
 
@@ -196,7 +209,7 @@ var Original_Module = (function(original_Module){
 
 //import original Module as argument
 //to new anonymous function
-](Original_Module));
+})(Original_Module);
 \end{lstlisting}
 
 
@@ -217,17 +230,17 @@ Using more files for one module can open you a whole bunch of new possibilities,
 We will also talk about the loading order of the files and the possibilities you have there.
 In the end we'll show you how to manage the private scope over several files.
 
-\subsubsection{One Module Pattern in different files}
-Like we mentioned above its possible to organize your modules different tasks in more files.
-But more important is that its possible now to independently load your module
+\subsubsection{A Module in different files}
+Like we mentioned above it's possible to organize your modules different tasks in more files.
+But more important is that it's possible now to independently load your module
 extensions. That means if you can't discover which module extensions you need, at page load,
-you can do it now dynamically as soon as you know it. Its only necessary to
+you can do it now dynamically as soon as you know it. It's only necessary to
 include a dynamic loading framework and you can use it. This means you can load your different
-strategies dynamically and on user needs. Reducing data traffic is one good reason to use this
+strategies dynamically and on user demand. Reducing data traffic is one good reason to use this
 concept.
 
 \subsubsection{Augmentation possibilities}
-By the use of the splitting to different files concept you have to choose between two different
+Splitting the module in to different files implies also you have to choose between two different
 augmentation possibilities:
 \begin{itemize}
     \item loose augmentation (no defined loading order)
@@ -236,32 +249,36 @@ augmentation possibilities:
 This augmentation possibilities differ in the function argument.
 The loose augmentation has the following structure:
 
-% var module_name = function(module) {
-% ...
-% return module
-% } (module_name || {})
+\begin{lstlisting}
+var module_name = function(module) {
+    ...
+    return module
+} (module_name || {})
+\end{lstlisting}
 
 This means if the module is already instanced we use it to extend and overwrite it.
 Otherwise we use a new empty object. If you use loose augmentation the var keyword
-is mandatory. The loose augmentation has no strict loading order and its possible to load them
-as you wish.
+is mandatory. The loose augmentation has no strict loading order and it's possible to load them
+as you wish. \vspace{\baselineskip}
 
 On the other side there is the tight augmentation structured like this:
 
-% [var] module_name = function(module) {
-% ...
-% return module
-% } (module_name)
+\begin{lstlisting}
+[var] module_name = function(module) {
+    ...
+    return module
+} (module_name)
+\end{lstlisting}
 
 Here the var keyword is optional and not needed. The base of your module isn't structured
 like this but has the base structure without the module as an argument. Only the extensions for
 that base module need this tight augmentation structure. This implies that the base of
 your module has to be loaded before the extensions. But for the extensions there is no defined
-loading order.
+loading order \cite{adequatelygood}. \vspace{\baselineskip}
 
 There is a problem you could face if you load the extensions randomly, because of some relations
-betweeen your extensions. Thats a really important thing you have to consider. So if there are
-constraints related to your module extensions, its necessary to adapt also your loading
+betweeen your extensions. That's a really important thing you have to consider. So if there are
+constraints related to your module extensions, it's necessary to adapt also your loading
 order in order to match the constraints.
 
 \subsubsection{Cross-File private state}
@@ -270,179 +287,140 @@ inside the generator function, to other extensions of your module. Even if you h
 more module extensions in one file (in my opinion there is no point in that, but netherless),
 it isn't possible to access private variables of other extensions.
 
-But there is a solution for this problem: you create a private and public object (here named \_private), both point
+But there is a solution for this problem: create a private and public object (here named \_private), both point
 to the same object. Its properties are in the cross-file private scope. After the initialization
 you have to call a ``seal'' function (called \_seal in our example) which deletes the public
 variables \_private, \_seal and \_unseal. The unseal function (called \_unseal in our example)
 recreates the public variables \_private, \_seal and \_unseal. To fullfill all this
-requirements the following code has to be in every module extension function.
+requirements the following code has to be in every module extension function \cite{adequatelygood}.
 
-% Code für cross-file private state
+\begin{lstlisting}
+var _private = module._private = module._private || {};
+var _seal = module._seal = module._seal || function () {
+        delete module._private;
+        delete module._seal;
+        delete module._unseal;
+    };
+var _unseal = module._unseal = module._unseal || function () {
+        module._private = _private;
+        module._seal = _seal;
+        module._unseal = _unseal;
+    };
+\end{lstlisting}
 
-This code creates creates a local ``private'' object which points to the same as the public ``private''
-object. They both point to the public ``private'' object if it exists or to a new object.
+This code creates a local ``private'' object which points to the same as the public ``private''
+object. They both point to the public ``private'' object if it exists, or to a new object if it doesn't.
 The same workflow is valid for the ``seal'' and the ``unseal'' functions, if the public function
-exists point to it, if not create the function.
+exists point to it, if not create the function. \vspace{\baselineskip}
 
-Important is also if its necessary to load an extension not directly on page loading, but
-later on, before loading it the ``unseal'' function must be called and afterwards the
+Important is also if it's necessary to load an extension not directly on page loading, but
+later on, before loading it, the ``unseal'' function must be called and afterwards the
 ``seal'' function. Now you have a full working cross-file private scope.
 
 \section{Our Web App - Tic Tac Toe Overview:}
-We developed a small web app where its possible to play the famous Tic Tac Toe game.
+We developed a small web app where it's possible to play the famous Tic Tac Toe game.
 For a better layout and to simplify our lifes we added the Bootstrap framework. It is
 a Open source HTML, CSS and JavaScript framework and they advertise it as the most popular.
-To load our files dynamically we used the 3rd party framework LAB.js.
+To load our files dynamically we used the 3rd party framework LABjs.
 
-\section{How Module Pattern Helped Our App (better title pls, jeebus)}
+\subsection{A simple overview of our Tic Tac Toe app}
+The webseite has a simple structure on the navigation bar on the top it's possible to select
+the AI strenght. To show the loading part of our talk we have links there instead of JavaScript
+handling. The navigation bar is made with Bootstrap. It's really easy to add there
+different items and links. \vspace{\baselineskip}
 
-This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text".
+All strategies are in different files and extend the main module, with at least the AI computation method ``selectNextKiField''.
+The default page loads all files parallel, which means that a random file should be loaded as last,
+but locally there is no difference between
+parallel and sequentially loading. Thats partly owed to the small file sizes and partly
+to the immediate access to the files on the local filesystem. But with larger filesizes
+and/or a slower Internet connection, e.g. a mobile connetion, there will be differences
+on every page load. And if a strategy is chosen only the corresponding
+file gets loaded and there isn't any parallel loading to take care of. \vspace{\baselineskip}
 
+Of course our game has a 3x3 field, filled with buttons. A click on a button sets
+the field as a user field and directly triggers the AI field selection. The computation is obviously
+influenced by the chosen AI strategy. After every move we check for a winner, if there is one
+the user gets a alert as notification. The game can be restarted by reloading the page.
 
-\section{Conclusion/Summary}
+\subsection{Why LAB.js and how does it work}
+LABjs \cite{labjs} is an all-purpose, on-demand JavaScript loader. It reduces the resource blocking during page-load,
+to optimize the websites performance. We chose this framework because it's in maintenance mode,
+which means there won't be any mayjor changes. This is important if you don't want to change the
+code with each update of the framework. The \textless{script}\textgreater{} tags in the header or at the end of the file will
+be replaced by \$LAB calls to load the JavaScript files. In our case this transformed this code:
 
-This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text". This is better looking sample text compared to the original sample text that just repeated the word "Text".
+\begin{lstlisting}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="tictactoe.js"></script>
+    <script src="tictactoeNoStrategy.js"></script>
+    <script src="tictactoeStrategyRandom.js"></script>
+    <script src="tictactoeGoodStrategy.js"></script>
+\end{lstlisting}
+
+into this:
+
+\begin{lstlisting}
+    <script src="js/LAB.src.js"></script>
+    <script>
+        $LAB
+        .script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js').wait()
+        .script('js/bootstrap.min.js')
+        .script('tictactoe.js');
+    </script>
+\end{lstlisting}
+With the ``script'' function called on the \$LAB Module it's possible to load a file.
+The Bootstrap framework requires the jQuery framework to be loaded first. This means they can't be
+loaded asynchronously so by calling the ``wait'' function, the jQuery framework gets loaded
+fully and afterwords the following files get loaded. This code implies that LABjs supports
+method chaining. \vspace{\baselineskip}
+
+You probably noticed the lack of our strategy JavaScript files, with LABjs we load them now
+in the ``tictactoe.js'' file. We decide there by the URL parameter ``strategy'' which files to load.
+
+\begin{lstlisting}
+    // get Parameter value
+    var strategy = GetURLParameter("strategy");
+    if (strategy === "none") {
+        // load only the files really needed
+        TICTACTOEAreaModule._unseal()
+        $LAB.script('tictactoeNoStrategy.js').wait(function () {
+            TICTACTOEAreaModule._seal();
+        });
+    } else
+        ...
+\end{lstlisting}
+
+At first we get the parameter value and afterwards we check the value and load the
+corresponding JavaScript file. You propably also noticed the unseal and seal method calls
+to get the cross file private state. The anonymous function gets called after the
+the file is fully loaded.
+
+\section{Which aspects of the Module Pattern were used in our webapp?}
+The new private scope is obviously very usefull. Now its possible to hide e.g. the
+game area. This means it's protected against unauthorized modifications.
+
+It's also really important that its possible now to have private functions. For maintainability
+reasons you probably want to split large methods into smaller ones, without sharing them
+to the whole project. This simplifys the nameing of methods and variables. \vspace{\baselineskip}
+
+We mentioned above that we have a file for each strategy and one for the base module.
+Because of that we also wanted to share some of our private variables and methods to
+other files. We did that exactly as described above.
+
+We used the loose augmentation possibility but we have here some special case.
+Our module with all basic functionallity is in the ``tictactoe.js'' file, but this module needs
+always at least one extension to work correctly. At the other side the extensions with the strategies
+obviously can't work correctly without the base madule. So we have some extra dependencies,
+which can't be solved only by the choice of the right augmentation type. This is probably
+an error in our webapp design.
+
+We didn't used inheritance since there was no use of it. We also didn't imported global variables,
+because there was no demand, neither for the namespacing.
+
 %Einleuitung / Was ist ModulePattern / Was ist daran gut, was schlecht / vll paar Beispiele wie man das elegant anwendet / beschreibung unserer WebApp und warum das pattern da geholfen hat / Schluss
 
-\section{everything past this line is a relict from the default template}
-
-\section{Approach}
-
-Equation~(\ref{eq:01}) Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text ��
-
-
-\begin{methods}
-\section{Methods}
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-
-\begin{itemize}
-\item for bulleted list, use itemize
-\item for bulleted list, use itemize
-\item for bulleted list, use itemize
-\end{itemize}
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text.
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-
-
-
-\begin{table}[!t]
-\processtable{This is table caption\label{Tab:01}}
-{\begin{tabular}{llll}\toprule
-head1 & head2 & head3 & head4\\\midrule
-row1 & row1 & row1 & row1\\
-row2 & row2 & row2 & row2\\
-row3 & row3 & row3 & row3\\
-row4 & row4 & row4 & row4\\\botrule
-\end{tabular}}{This is a footnote}
-\end{table}
-
-\end{methods}
-
-\begin{figure}[!tpb]%figure1
-%\centerline{\includegraphics{fig01.eps}}
-\caption{Caption, caption.}\label{fig:01}
-\end{figure}
-
-\begin{figure}[!tpb]%figure2
-%\centerline{\includegraphics{fig02.eps}}
-\caption{Caption, caption.}\label{fig:02}
-\end{figure}
-
-\section{Discussion}
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text.
-
-
-
-
-Table~\ref{Tab:01} shows that Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that
-the above method Text Text. Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that
-the above method Text Text. Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that
-the above method Text Text.
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%     please remove the " % " symbol from \centerline{\includegraphics{fig01.eps}}
-%     as it may ignore the figures.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-\section{Conclusion}
-
-(Table~\ref{Tab:01}) Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-
-
-
-
-
-\begin{enumerate}
-\item this is item, use enumerate
-\item this is item, use enumerate
-\item this is item, use enumerate
-\end{enumerate}
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text  Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text.
-
-
-
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text. Figure \ref{fig:02} shows that the above method  Text Text Text Text
-
-
-\section*{Acknowledgement}
-Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text text text text
-
-\paragraph{Funding\textcolon} Text Text Text Text Text Text  Text Text.
 
 %\bibliographystyle{natbib}
 %\bibliographystyle{achemnat}
@@ -458,39 +436,11 @@ Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to kn
 \begin{thebibliography}{}
 
 
-\bibitem{Javascript Design Patterns} Addy Osmani: \emph{Learning JavaScript Design Patterns}, O'Reilly Media \verb|http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript|
+\bibitem{JavaScript Design Patterns} Addy Osmani: \emph{Learning JavaScript Design Patterns}, O'Reilly Media \verb|http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript|
 
 \bibitem{adequatelygood} \emph{adequatelygood.com on the Module Pattern, May 8th '15}, \verb|http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html|
 
-
-\bibitem[Bofelli {\it et~al}., 2000]{Boffelli03} Bofelli,F., Name2, Name3 (2003) Article title, {\it Journal Name}, {\bf 199}, 133-154.
-
-\bibitem[Bag {\it et~al}., 2001]{Bag01} Bag,M., Name2, Name3 (2001) Article title, {\it Journal Name}, {\bf 99}, 33-54.
-
-\bibitem[Yoo \textit{et~al}., 2003]{Yoo03}
-Yoo,M.S. \textit{et~al}. (2003) Oxidative stress regulated genes
-in nigral dopaminergic neurnol cell: correlation with the known
-pathology in Parkinson's disease. \textit{Brain Res. Mol. Brain
-Res.}, \textbf{110}(Suppl. 1), 76--84.
-
-\bibitem[Lehmann, 1986]{Leh86}
-Lehmann,E.L. (1986) Chapter title. \textit{Book Title}. Vol.~1, 2nd edn. Springer-Verlag, New York.
-
-\bibitem[Crenshaw and Jones, 2003]{Cre03}
-Crenshaw, B.,III, and Jones, W.B.,Jr (2003) The future of clinical
-cancer management: one tumor, one chip. \textit{Bioinformatics},
-doi:10.1093/bioinformatics/btn000.
-
-\bibitem[Auhtor \textit{et~al}. (2000)]{Aut00}
-Auhtor,A.B. \textit{et~al}. (2000) Chapter title. In Smith, A.C.
-(ed.), \textit{Book Title}, 2nd edn. Publisher, Location, Vol. 1, pp.
-???--???.
-
-\bibitem[Bardet, 1920]{Bar20}
-Bardet, G. (1920) Sur un syndrome d'obesite infantile avec
-polydactylie et retinite pigmentaire (contribution a l'etude des
-formes cliniques de l'obesite hypophysaire). PhD Thesis, name of
-institution, Paris, France.
+\bibitem{labjs} \emph{labjs.com on LABjs, May 8th '15}, \verb|http://labjs.com|
 
 \end{thebibliography}
 \end{document}
